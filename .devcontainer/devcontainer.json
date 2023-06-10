@@ -1,0 +1,52 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
+{
+	"name": "Node.js & TypeScript",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:0-20",
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+		"ghcr.io/devcontainers/features/kubectl-helm-minikube": {
+			"version": "latest",
+			"helm": "latest"
+		},
+		"ghcr.io/devcontainers/features/docker-in-docker": {
+			"version": "latest",
+			"moby": true,
+			"dockerDashComposeVersion": "v1"
+		}
+	},
+
+	"mounts": [
+		"source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
+		"source=${env:HOME}${env:USERPROFILE}/.kube,target=/usr/local/share/kube-localhost,type=bind"
+	],
+
+	"remoteEnv": {
+		"SYNC_LOCALHOST_KUBECONFIG": "true"
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": {
+		"k8s_cdk": "yarn global add cdk8s-cli",
+		"kube_config": [
+			"mkdir -p $HOME/.kube",
+			"sudo cp -r /usr/local/share/kube-localhost/* $HOME/.kube",
+			"sudo chown -R $(id -u) $HOME/.kube",
+			"sed -i -e 's/localhost/host.docker.internal/g' $HOME/.kube/config",
+			"sed -i -e 's/127.0.0.1/host.docker.internal/g' $HOME/.kube/config"
+		]
+	},
+
+	// Configure tool-specific properties.
+	// "customizations": {},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+
+	"runArgs": ["--init"]
+}
