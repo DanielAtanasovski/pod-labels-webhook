@@ -11,7 +11,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: true,
-    tsconfigRootDir: `${__dirname}/pod_labels_webhook`,
+    tsconfigRootDir: `${__dirname}/pod-labels-webhook`,
   },
   root: false,
 };
