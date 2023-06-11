@@ -11,7 +11,10 @@ name: Create and publish a Docker image
 
 on:
   push:
-    branches: ["release"]
+    branches:
+      - "*"
+    tags:
+      - "*"
 
 env:
   REGISTRY: ghcr.io
@@ -44,7 +47,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ./pod_labels_webhook
+          context: ./pod-labels-webhook
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

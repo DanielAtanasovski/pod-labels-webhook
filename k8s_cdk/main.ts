@@ -14,7 +14,7 @@ export class MyChart extends Chart {
   constructor(scope: Construct, id: string, props: ChartProps = {}) {
     super(scope, id, props);
 
-    const labels = { app: "pod_labels_webhook" };
+    const labels = { app: "pod-labels-webhook" };
     const namespace = "default";
 
     //  Service
