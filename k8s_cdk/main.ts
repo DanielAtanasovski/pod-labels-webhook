@@ -14,7 +14,7 @@ export class MyChart extends Chart {
   constructor(scope: Construct, id: string, props: ChartProps = {}) {
     super(scope, id, props);
 
-    const labels = { app: "node-labels-to-pods" };
+    const labels = { app: "pod_labels_webhook" };
     const namespace = "default";
 
     //  Service
@@ -39,7 +39,7 @@ export class MyChart extends Chart {
     new KubeDeployment(this, "deployment", {
       metadata: {
         name: labels.app,
-        namespace: "default",
+        namespace: namespace,
       },
       spec: {
         replicas: 1,
