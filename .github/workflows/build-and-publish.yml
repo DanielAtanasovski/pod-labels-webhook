@@ -13,8 +13,6 @@ on:
   push:
     branches:
       - "*"
-    tags:
-      - "*"
 
 env:
   REGISTRY: ghcr.io
