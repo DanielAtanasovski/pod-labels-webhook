@@ -3,8 +3,6 @@ import fs from 'fs';
 import https from 'https';
 import bodyParser from 'body-parser';
 
-import { admissionregistrationK8sIo } from 'kubernetes-models';
-
 const app = express();
 const port = 4443;
 
