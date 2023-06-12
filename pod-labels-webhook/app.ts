@@ -20,8 +20,6 @@ app.post(
   (req: express.Request, res: express.Response) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     // const admReq = req.body.request;
-    console.log('REQUEST:');
-    console.log(req);
     console.log('BODY');
     console.log(req.body);
   }
