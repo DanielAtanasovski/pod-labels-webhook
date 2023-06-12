@@ -14,14 +14,18 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.post('/mutate', (req: express.Request, res: express.Response) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  // const admReq = req.body.request;
-  console.log('REQUEST:');
-  console.log(req);
-  console.log('BODY');
-  console.log(req.body);
-});
+app.post(
+  '/mutate',
+  bodyParser.json(),
+  (req: express.Request, res: express.Response) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    // const admReq = req.body.request;
+    console.log('REQUEST:');
+    console.log(req);
+    console.log('BODY');
+    console.log(req.body);
+  }
+);
 
 console.log(`Starting Server on port ${port}...`);
 https
