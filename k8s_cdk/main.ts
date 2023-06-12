@@ -19,19 +19,20 @@ export class MyChart extends Chart {
 
     //  Service
     new KubeService(this, "service", {
+      metadata: {
+        name: `${labels.app}-service`,
+        namespace: namespace,
+      },
       spec: {
         ports: [
           {
             port: 443,
             targetPort: IntOrString.fromNumber(443),
             protocol: "TCP",
+            name: "https-webhook",
           },
         ],
         selector: labels,
-      },
-      metadata: {
-        name: labels.app,
-        namespace: namespace,
       },
     });
 
@@ -54,7 +55,8 @@ export class MyChart extends Chart {
             containers: [
               {
                 name: labels.app,
-                image: `${labels.app}:latest`,
+                image: `ghcr.io/danielatanasovski/${labels.app}:main`,
+                imagePullPolicy: "IfNotPresent",
                 volumeMounts: [
                   {
                     name: "tls",
@@ -67,7 +69,7 @@ export class MyChart extends Chart {
               {
                 name: "tls",
                 secret: {
-                  secretName: `${labels.app}-tls`,
+                  secretName: `${labels.app}-service-cert`,
                 },
               },
             ],
@@ -83,10 +85,15 @@ export class MyChart extends Chart {
         namespace: namespace,
       },
       spec: {
-        secretName: `${labels.app}-certificate-secret`,
-        dnsNames: [`${labels.app}`, `${labels.app}.${namespace}`],
+        secretName: `${labels.app}-service-cert`,
+        commonName: `${labels.app}.${namespace}.svc`,
+        dnsNames: [
+          `${labels.app}`,
+          `${labels.app}.${namespace}`,
+          `${labels.app}.${namespace}.svc`,
+        ],
         issuerRef: {
-          name: "self-signer",
+          name: "my-ca-issuer",
         },
       },
     });
@@ -94,14 +101,14 @@ export class MyChart extends Chart {
     // Mutating Webhook
     new KubeMutatingWebhookConfiguration(this, "mutating-webhook", {
       metadata: {
-        name: `${labels.app}.acme.com`,
+        name: `${labels.app}.${namespace}.svc`,
         annotations: {
           "cert-manager.io/inject-ca-from": `${namespace}/${labels.app}-certificate`,
         },
       },
       webhooks: [
         {
-          name: `${labels.app}.acme.com`,
+          name: `${labels.app}.${namespace}.svc`,
           rules: [
             {
               apiGroups: [""],
