@@ -29,10 +29,11 @@ export class MyChart extends Chart {
             port: 443,
             targetPort: IntOrString.fromNumber(443),
             protocol: "TCP",
-            name: "https-webhook",
           },
         ],
-        selector: labels,
+        selector: {
+          app: labels.app,
+        },
       },
     });
 
@@ -45,11 +46,15 @@ export class MyChart extends Chart {
       spec: {
         replicas: 1,
         selector: {
-          matchLabels: labels,
+          matchLabels: {
+            app: labels.app,
+          },
         },
         template: {
           metadata: {
-            labels: labels,
+            labels: {
+              app: labels.app,
+            },
           },
           spec: {
             containers: [
@@ -125,7 +130,7 @@ export class MyChart extends Chart {
           },
           clientConfig: {
             service: {
-              name: labels.app,
+              name: `${labels.app}-service`,
               namespace: `${namespace}`,
               path: "/mutate",
               port: 443,

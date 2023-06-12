@@ -4,7 +4,7 @@ import https from 'https';
 import bodyParser from 'body-parser';
 
 const app = express();
-const port = 443;
+const port = 4443;
 
 type AdmissionRequestModel = {
   request: object;
@@ -26,6 +26,7 @@ app.post(
   }
 );
 
+console.log(`Starting Server on port ${port}...`);
 https
   .createServer(
     {

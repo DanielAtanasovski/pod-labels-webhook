@@ -14,6 +14,6 @@ COPY --chown=node:node . .
 
 RUN tsc
 
-EXPOSE 443
+EXPOSE 4443
 
 CMD [ "node", "dist/app.js" ]
