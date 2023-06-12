@@ -27,7 +27,7 @@ export class MyChart extends Chart {
         ports: [
           {
             port: 443,
-            targetPort: IntOrString.fromNumber(443),
+            targetPort: IntOrString.fromNumber(4443),
             protocol: "TCP",
           },
         ],
@@ -96,6 +96,7 @@ export class MyChart extends Chart {
           `${labels.app}`,
           `${labels.app}.${namespace}`,
           `${labels.app}.${namespace}.svc`,
+          `${labels.app}-service.${namespace}.svc`,
         ],
         issuerRef: {
           name: "my-ca-issuer",
