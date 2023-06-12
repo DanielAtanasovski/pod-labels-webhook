@@ -30,7 +30,7 @@ https
   .createServer(
     {
       key: fs.readFileSync('/etc/webhook/tls/tls.key'),
-      cert: fs.readFileSync('/etc/webhook/tls/tls.cert'),
+      cert: fs.readFileSync('/etc/webhook/tls/tls.crt'),
     },
     app
   )
