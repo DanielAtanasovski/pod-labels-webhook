@@ -56,7 +56,7 @@ export class MyChart extends Chart {
               {
                 name: labels.app,
                 image: `ghcr.io/danielatanasovski/${labels.app}:main`,
-                imagePullPolicy: "IfNotPresent",
+                imagePullPolicy: "Always",
                 volumeMounts: [
                   {
                     name: "tls",

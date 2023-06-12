@@ -29,8 +29,8 @@ app.post(
 https
   .createServer(
     {
-      key: fs.readFileSync('/etc/certs/tls.key'),
-      cert: fs.readFileSync('/etc/certs/tls.cert'),
+      key: fs.readFileSync('/etc/webhook/tls.key'),
+      cert: fs.readFileSync('/etc/webhook/tls.cert'),
     },
     app
   )
